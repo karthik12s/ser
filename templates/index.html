@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Home</title>
+  </head>
+  <body>
+  <p>{{a}}</p>
+     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js" type="text/javascript"></script>
+     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+     <!-- Import the page's JavaScript to do some stuff -->
+    <script type="text/javascript" {{ url_for('static', filename='app.js')}}></script>
+    <script>
+    // Load our saved model from current directory (which will be
+    // hosted via Firebase Hosting)
+    async function predict() {
+      // const img = new Image();
+      // img.src = '../static/2.jpg';
+      // const im = tf.browser.fromPixels(img);
+      // im.reshape([3,48, 48,1]);
+      // console.log(tf.tensor(im).shape());
+      //  const im1=[im,im];
+       function myFunc(vars) {
+    return vars
+    }
+var dict = { 0 : "Angry" ,
+           1 : "Disgust" ,
+           2 : "Fear" ,
+           3 : "Happy" ,
+           4 : "Neutral" ,
+           5 : "Sad" ,
+           6 : "Surprise" ,
+         };
+function indexOfMax(arr) {
+    if (arr.length === 0) {
+        return -1;
+    }
+
+    var max = arr[0];
+    var maxIndex = 0;
+
+    for (var i = 1; i < arr.length; i++) {
+        if (arr[i] > max) {
+            maxIndex = i;
+            max = arr[i];
+        }
+    }
+
+    return maxIndex;
+}
+
+      var myVar = myFunc({{a|tojson}});
+
+      // Relative URL provided for my-model.json.
+      const model = await tf.loadLayersModel('../static/model/model.json');
+      // Once model is loaded, let's try using it to make a prediction!
+      // Print to developer console for now.
+
+       const tensor1 = model.predict(tf.tensor(myVar));
+       const values = tensor1.dataSync();
+       const arr = Array.from(values);
+       console.log(values);
+       console.log(arr);
+       var t=indexOfMax(arr);
+       console.log(t);
+       document.getElementById("p1").innerHTML=dict[t];
+    }
+predict();
+ </script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
+  </body>
+</html>
